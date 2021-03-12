@@ -28,11 +28,18 @@ public class EmpleadoTestParametrizado {
 
         ArrayList<Object[]> obj = new ArrayList<>();
 
-
+        //EMPLEADOS VÁLIDOS
         obj.add(new Object[] {"Pepe", "1", "Analista", "12", 2500});
         obj.add(new Object[] {"Luis", "31", "Programador", "01", 2000});
         obj.add(new Object[] {"Marisa", "144", "Diseñador", "55", 1500});
         obj.add(new Object[] {"Marcos", "02", "Programador", "66", 2000});
+        
+        // EMPLEADOS NO VÁLIDOS
+        obj.add(new Object[] {"Paco", "A", "Analista", "21", 2500});
+        obj.add(new Object[] {"", "55", "Programador", "29", 2000});
+        obj.add(new Object[] {"Pepi", "09", "Diseñador", "E", 1500});
+        obj.add(new Object[] {"", "", "", "", 2000});
+
 
 
         return obj;
