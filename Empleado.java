@@ -1,17 +1,19 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.regex.*;
 
 public class Empleado {
 
     private String nombre, oficio;
     private int salario;
-    private String codEmpleado, departamento;
+    private String codEmpleado, codDepartamento;
     private ArrayList <String> listaEmpleados;
 
     private final String minCodEmpleado = "000";
     private final String minCodDepartamento = "00";
+
+    private final int salarioAnalista = 2500;
+    private final int salarioDiseñador = 1500;
+    private final int salarioProgramador = 2000;
+
 
     public String getNombre(){
 
@@ -28,9 +30,9 @@ public class Empleado {
         return codEmpleado;
     }
 
-    public String getDepartamento(){
+    public String getCodDepartamento(){
 
-        return departamento;
+        return codDepartamento;
     }
 
     public int getSalario(){
@@ -53,9 +55,9 @@ public class Empleado {
         this.codEmpleado = codEmpleado;
     }
 
-    public void setDepartamento(String departamento) {
+    public void setCodDepartamento(String codDepartamento) {
 
-        this.departamento = departamento;
+        this.codDepartamento = codDepartamento;
     }
 
     public void setOficio(String oficio) {
@@ -72,12 +74,12 @@ public class Empleado {
 
     }
 
-    public Empleado(String nombre, String codEmpleado, String oficio, String departamento){
+    public Empleado(String nombre, String codEmpleado, String oficio, String codDepartamento){
 
         this.nombre = nombre;
         this.codEmpleado = codEmpleado;
         this.oficio = oficio;
-        this.departamento = departamento;
+        this.codDepartamento = codDepartamento;
 
     }
 
@@ -87,18 +89,13 @@ public class Empleado {
                 "nombre = '" + nombre + '\'' +
                 ", oficio = '" + oficio + '\'' +
                 ", codEmpleado = " + codEmpleado +
-                ", departamento = " + departamento +
+                ", departamento = " + codDepartamento +
                 ", salario = " + salario + '€' +
                 '}';
     }
 
-    public void comprobarOficio(){
+    public void almacenarOficioYSalario(){
 
-        Scanner entrada = new Scanner(System.in);
-
-        System.out.println("Introduzca el oficio");
-
-        oficio = entrada.nextLine();
         char[] chOficio = oficio.toCharArray();
 
         if (oficio.isEmpty()){
@@ -120,35 +117,30 @@ public class Empleado {
             if (oficio.equals("ANALISTA")){
 
                 setOficio(oficio);
-                System.out.println("Oficio de: " + oficio);
-                setSalario(2500);
+                setSalario(salarioAnalista);
+                System.out.println("Oficio y salario almacenado");
             }
 
             else if(oficio.equals("DISEÑADOR")){
 
                 setOficio(oficio);
-                System.out.println("Oficio de: " + oficio);
-                setSalario(1500);
+                setSalario(salarioDiseñador);
+                System.out.println("Oficio y salario almacenado");
 
             }
 
             else{
 
                 setOficio(oficio);
-                System.out.println("Oficio de: " + oficio);
-                setSalario(2000);
-            }
-
+                setSalario(salarioProgramador);
+                System.out.println("Oficio y salario almacenado");
             }
 
         }
 
+    }
+
     public void comprobarNombre(){
-
-        Scanner entrada = new Scanner(System.in);
-
-        System.out.println("Introduzca el nombre del empleado");
-        nombre = entrada.nextLine();
 
         char[] chNombre = nombre.toCharArray();
 
@@ -160,7 +152,7 @@ public class Empleado {
 
         else{
 
-            for (int i = 0; i <= nombre.length(); i++){
+            for (int i = 0; i <= chNombre.length; i++){
 
                 if (String.valueOf(chNombre[i]).matches("^[0-9]$")){
 
@@ -182,13 +174,7 @@ public class Empleado {
 
     }
 
-    public void comprobarCodEmpleado(){
-
-        Scanner entrada = new Scanner(System.in);
-
-        System.out.println("Introduzca el código del empleado");
-
-        codEmpleado = entrada.nextLine();
+    public void almacenarCodEmpleado(){
 
         char[] charCodeEmpleado = codEmpleado.toCharArray();
 
@@ -207,7 +193,7 @@ public class Empleado {
 
         else {
 
-            for (int i = 0; i <= codEmpleado.length(); i++) {
+            for (int i = 0; i < charCodeEmpleado.length; i++) {
 
                 if (String.valueOf(charCodeEmpleado[i]).matches("^[a-zA-Z]$")) {
 
@@ -252,58 +238,59 @@ public class Empleado {
 
     }
 
-    public void comprobarDepartamento(){
+    public void almacenarDepartamento(){
 
-        Scanner entrada = new Scanner(System.in);
+        char[] chCodDep = codDepartamento.toCharArray();
 
-        System.out.println("Introduzca el departamento. (Dos cifras. Si no lo sabe, déjelo en blanco)");
-        departamento = entrada.nextLine();
-
-        if(departamento.length() == 0){
+        if(codDepartamento.length() == 0){
 
             System.out.println("Error ER2. El código del departamento no puede estar vacío.");
             System.exit(0);
         }
 
-        else if(departamento.length() > 2){
+        else if(codDepartamento.length() > 2){
 
             System.out.println("Error ER2, el código del departamento no puede contenr más de dos dígitos");
             System.exit(0);
 
         }
 
-        else if(!departamento.matches("^[0-9]")){
-
-            System.out.println("Error ER2. El departamento solo puede estar comprendido por dígitos positivos");
-            System.exit(0);
-        }
-
-
 
         else {
 
-            if (departamento.length() == 1){
+            for (int i = 0; i < chCodDep.length; i++) {
 
-                departamento = "0" + departamento;
-            }
+                if (String.valueOf(chCodDep[i]).matches("^[a-zA-Z]$")) {
 
-            else{
-
-                int codDep = Integer.parseInt(departamento);
-                int minCodDep = Integer.parseInt(minCodDepartamento);
-
-                if (codDep < minCodDep) {
-
-                    System.out.println("Error ER2. El departamento no puede ser inferior o igual a 00");
+                    System.out.println("Error ER2. El departamento solo puede estar comprendido por dígitos positivos");
                     System.exit(0);
+
                 }
 
+                if (codDepartamento.length() == 1){
 
-                else {
-
-                    setDepartamento(departamento);
-                    System.out.println("Departamento almacenado");
+                    codDepartamento = "0" + codDepartamento;
                 }
+
+                else{
+
+                    int codDep = Integer.parseInt(codDepartamento);
+                    int minCodDep = Integer.parseInt(minCodDepartamento);
+
+                    if (codDep < minCodDep) {
+
+                        System.out.println("Error ER2. El departamento no puede ser inferior o igual a 00");
+                        System.exit(0);
+                    }
+
+
+                    else {
+
+                        setCodDepartamento(codDepartamento);
+                        System.out.println("Departamento almacenado");
+                    }
+                }
+
             }
 
         }
